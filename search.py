@@ -119,7 +119,36 @@ def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     # python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs
     # python pacman.py -l bigMaze -p SearchAgent -a fn=bfs -z .5
+    '''
+    # Initialization
+    state = problem.getStartState()
+    fringe = util.Queue()
+    fringe.push(state)
+    #visited = set(state) # Store list of visited states
+    visited = []
+    visited.append(state)
+    parent = {} # Store parent path in dictionary <KEY, VALUE> -> <parent_state, action_from_parent_to_current>
 
+    while not fringe.isEmpty():
+        state = fringe.pop()
+        if problem.isGoalState(state):
+            break;
+        # Get successor positions
+        successors = problem.getSuccessors(state)
+        for nextState, action, _ in successors:
+            # If the successor has not been visited, push it to queue
+            if nextState not in visited:
+                #visited.add(nextState)
+                visited.append(nextState)
+                fringe.push(nextState)
+                parent[nextState] = (state, action) # Track the parent path and action
+    path = []
+    while not state == problem.getStartState():
+        p = parent[state]
+        path.append(p[1]) # Create a list of actions
+        state = p[0] # All the way back to startState
+    return path[::-1] # Path reverse
+    '''
     # Initialization
     startState = problem.getStartState()
     fringe = util.Queue()
@@ -205,7 +234,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 if next[0] not in visited:
                     # Sorted order of items in pq by heuristic function
                     fringe.update((next[0], actions+[next[1]]), problem.getCostOfActions(actions+[next[1]])+heuristic(next[0], problem))
-
     return path
 
     util.raiseNotDefined()
