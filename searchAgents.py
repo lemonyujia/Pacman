@@ -512,6 +512,9 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
+    # python pacman.py -l tinySearch -p AStarFoodSearchAgent
+    # python pacman.py -l trickySearch -p AStarFoodSearchAgent
+
     '''
     position, foodGrid = state
     uneaternList = foodGrid.asList()
@@ -530,6 +533,7 @@ def foodHeuristic(state, problem):
         position = nearestFoodPos
     return score
     '''
+    # state tuple(pacmanPosition, foodGrid)
     position = state[0] 
     foodGrid = state[1]
     uneatenList = foodGrid.asList()
@@ -572,8 +576,7 @@ class ClosestDotSearchAgent(SearchAgent):
         food = gameState.getFood()
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
-
-        "*** YOUR CODE HERE ***"
+        return search.bfs(problem)
         util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -590,6 +593,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     You can use this search problem to help you fill in the findPathToClosestDot
     method.
     """
+    # python pacman.py -l bigSearch -p ClosestDotSearchAgent -z .5
 
     def __init__(self, gameState):
         "Stores information from the gameState.  You don't need to change this."
@@ -607,9 +611,11 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
-        x,y = state
-
-        "*** YOUR CODE HERE ***"
+        uneatenList = self.food.asList()
+        for foodPos in uneatenList:
+            if foodPos == state:
+                return True
+        return False
         util.raiseNotDefined()
 
 def mazeDistance(point1, point2, gameState):
